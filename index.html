@@ -6,32 +6,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Document</title>
-        <style>
-
+    <style>
+        .timer {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+          }
+          
+          .timer #time {
+            color: red;
+          }
+          
+          
     </style>
 </head>
 <body>
     
     <div class="container">
         <div class="row">
-          <div class="col-12 bg-light text-center py-3">
+          <div class="col-12 bg-light text-center py-3 display_text"  id="display_text" style='color: black'>
                 Color Text
           </div>
 
         </div>
         <div class="row">
-          <div class="col-12 bg-light text-center py-3">
+          <div class="col-12 bg-light text-center py-3 ">
                 instruction
+
+                <div class="timer">
+                    <span id="time">30</span>
+                    <button id="start-btn">Start</button>
+                  </div>
+                  
           </div>
 
         </div>
         <div class="row">
-          <div class="col-6 bg-light text-center py-3">Color1</div>
-          <div class="col-6 bg-light text-center py-3">Color2</div>
-          <div class="col-6 bg-light text-center py-3">Color3</div>
-          <div class="col-6 bg-light text-center py-3">Color4</div>
+          <div class="col-6 bg-light text-center py-3" onclick={fun(1)} style="color:green">Green</div>
+          <div class="col-6 bg-light text-center py-3" onclick={fun(2)} style="color:blue">Blue</div>
+          <div class="col-6 bg-light text-center py-3" onclick={fun(3)} style="color:red">Red</div>
+          <div class="col-6 bg-light text-center py-3" onclick={fun(4)} style="color:yellow">Yellow</div>
         </div>
+
+        <div class="row">
+            <div class="col-12 bg-light text-center py-3 ">
+                <div id="correct"></div>
+                <div id="wrong"></div>
+              <div id="ans"></div>
+            </div>
+        </div>
+
       </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        var correct=0,wrong=0;
+        var flag=0;
+        var text_color=["green","blue","red","yellow"];
+        <!-- alert(`randome value ${r1}  ${text_color[r1-1]}`) -->
+        
+        var text=["green","blue","red","yellow"];
+
+
+        function change_text_color(val){
+            <!-- alert("my fnction ") -->
+            var r1=Math.floor(Math.random()*4)
+            r1++;
+            var r2=Math.floor(Math.random()*4)
+            r2++;
+            <!-- alert(`text_color:${text_color[r1-1]}  val:${val}`) -->
+
+            if(val===r1){
+                correct++;
+                <!-- alert(`corect count:${correct}`) -->
+            }
+            else{
+                wrong++;
+                <!-- alert(`wrong count:${wrong}`) -->
+                
+            }
+            
+            const test=document.getElementById("display_text").style.color=text_color[r1-1];
+            const test1=document.getElementById("display_text").innerText=text[r2-1];
+            console.log(`r1:${r1}  r2:${r2}`)
+            <!-- console.log(`R:${correct}  W:${wrong}`) -->
+
+        }
+
+        const timer = document.getElementById('time');
+        const startBtn = document.getElementById('start-btn');
+        
+        let timeLeft = 30;
+        let countdown;
+        
+        startBtn.addEventListener('click', startTimer);
+        
+        function startTimer() {
+          countdown = setInterval(() => {
+            if (timeLeft <= 0) {
+              clearInterval(countdown);
+              timer.innerHTML = "0";
+              taskCompleted();
+            } else {
+              timeLeft--;
+              timer.innerHTML = timeLeft;
+            }
+          }, 1000);
+        }
+        
+        const correctDisplay = document.getElementById('correct');
+        const wrongDisplay = document.getElementById('wrong');
+        const resultDsiplay= document.getElementById('ans');
+        function taskCompleted() {
+          alert('Task completed!');
+
+          correctDisplay.innerHTML = wrong;
+          wrongDisplay.innerHTML = correct;
+          resultDsiplay.innerHTML=-correct+wrong;
+
+          correct=0;
+          wrong=0;
+          timeLeft=30;
+
+        }
+        function fun(val) {
+            change_text_color(val);
+            if(flag===0)
+            {
+                updateStopwatch();
+                flag=1;
+            }
+
+
+        } 
+    </script>
 </body>
 </html>
